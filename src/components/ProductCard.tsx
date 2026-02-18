@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { useCartStore } from "../store/useCartStore";
 
 export interface Product {
   image: {
@@ -16,7 +17,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: {
     opacity: 1,
@@ -29,6 +30,10 @@ const itemVariants = {
 };
 
 function ProductCard({ product }: ProductCardProps) {
+  const { items, addItem, updateQuantity } = useCartStore();
+  const cartItem = items.find((item) => item.name === product.name);
+  const isInCart = !!cartItem;
+
   return (
     <motion.article
       variants={itemVariants}
@@ -44,18 +49,59 @@ function ProductCard({ product }: ProductCardProps) {
           <img
             src={product.image.mobile}
             alt={product.name}
-            className="rounded-xl border-2 border-transparent transition-colors"
+            className={`rounded-xl border-2 transition-colors ${
+              isInCart ? "border-red" : "border-transparent"
+            }`}
           />
         </picture>
-        <button className="absolute -bottom-5 left-1/2 flex w-[160px] -translate-x-1/2 items-center justify-center gap-2 rounded-full border border-rose-400 bg-white py-3 font-semibold transition-all duration-300 hover:border-red hover:text-red">
-          <img
-            src="./assets/images/icon-add-to-cart.svg"
-            alt=""
-            aria-hidden="true"
-            className="h-5 w-5"
-          />
-          <span className="text-sm">Add to Cart</span>
-        </button>
+        {isInCart ? (
+          <div className="absolute -bottom-5 left-1/2 flex w-[160px] -translate-x-1/2 items-center justify-between rounded-full bg-red px-3 py-3 font-semibold text-white">
+            <button
+              onClick={() => updateQuantity(product.name, -1)}
+              className="group flex h-5 w-5 items-center justify-center rounded-full border border-white transition-colors hover:bg-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="2"
+                fill="none"
+                viewBox="0 0 10 2"
+                className="fill-white group-hover:fill-red"
+              >
+                <path d="M0 .375h10v1.25H0V.375Z" />
+              </svg>
+            </button>
+            <span className="text-sm">{cartItem.quantity}</span>
+            <button
+              onClick={() => updateQuantity(product.name, 1)}
+              className="group flex h-5 w-5 items-center justify-center rounded-full border border-white transition-colors hover:bg-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                fill="none"
+                viewBox="0 0 10 10"
+                className="fill-white group-hover:fill-red"
+              >
+                <path d="M10 4.375H5.625V0h-1.25v4.375H0v1.25h4.375V10h1.25V5.625H10v-1.25Z" />
+              </svg>
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => addItem(product)}
+            className="absolute -bottom-5 left-1/2 flex w-[160px] -translate-x-1/2 items-center justify-center gap-2 rounded-full border border-rose-400 bg-white py-3 font-semibold transition-all duration-300 hover:border-red hover:text-red"
+          >
+            <img
+              src="./assets/images/icon-add-to-cart.svg"
+              alt=""
+              aria-hidden="true"
+              className="h-5 w-5"
+            />
+            <span className="text-sm">Add to Cart</span>
+          </button>
+        )}
       </div>
 
       {/* Details Products */}
