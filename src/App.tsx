@@ -1,36 +1,67 @@
+// src/App.tsx
 import "./App.css";
+import data from "../data.json";
+import ProductCard from "./components/ProductCard";
 
 function App() {
   return (
-    <div className="min-h-screen bg-rose-50 p-6 md:p-10 lg:p-20">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-3">
-        {/* main content */}
-        <main className="lg:col-span-2">
-          <h1 className="mb-8 text-4xl font-bold text-rose-900">Desserts</h1>
+    <div className="min-h-screen bg-rose-50 p-4 py-8 md:p-10 lg:p-20 lg:py-16">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3">
+          {/* main content */}
+          <main className="lg:col-span-2">
+            <h1 className="mb-8 text-left text-4xl font-bold text-rose-900">
+              Desserts
+            </h1>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* ProductCard later */}
-          </div>
-        </main>
-
-        {/* aside section */}
-        <aside>
-          <div className="rounded-xl bg-white p-6">
-            <h2 className="mb-4 text-2xl font-bold text-rose-900">
-              Your Cart (0)
-            </h2>
-            <div className="flex flex-col items-center py-10">
-              <img
-                src="./assets/images/illustration-empty-cart.svg"
-                alt=""
-                aria-hidden="true"
-              />
-              <p className="mt-4 text-sm font-semibold text-rose-500">
-                Your added items will appear here
-              </p>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {data.map((product) => (
+                <ProductCard key={product.name} product={product} />
+              ))}
             </div>
+          </main>
+
+          {/* aside section */}
+          <aside className="self-start">
+            <div className="rounded-xl bg-white p-6">
+              <h2 className="mb-4 text-left text-2xl font-bold text-red">
+                Your Cart (0)
+              </h2>
+              <div className="flex flex-col items-center py-10 text-center">
+                <img
+                  src="./assets/images/illustration-empty-cart.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <p className="mt-4 text-sm font-semibold text-rose-500">
+                  Your added items will appear here
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        {/* Footer / Attribution */}
+        <footer className="mt-20 text-center text-xs">
+          <div className="attribution">
+            Challenge by{" "}
+            <a
+              href="https://www.frontendmentor.io?ref=challenge"
+              target="_blank"
+              className="font-bold text-rose-500 hover:text-red transition-colors"
+            >
+              Frontend Mentor
+            </a>
+            . Coded by{" "}
+            <a
+              href="https://github.com/BaskoroR725"
+              className="font-bold text-rose-500 hover:text-red transition-colors"
+            >
+              Baskoro Ramadhan
+            </a>
+            .
           </div>
-        </aside>
+        </footer>
       </div>
     </div>
   );
