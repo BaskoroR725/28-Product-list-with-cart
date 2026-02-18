@@ -1,7 +1,18 @@
-// src/App.tsx
+import { motion } from "framer-motion";
 import "./App.css";
 import data from "../data.json";
 import ProductCard from "./components/ProductCard";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.3,
+    },
+  },
+};
 
 function App() {
   return (
@@ -14,11 +25,16 @@ function App() {
               Desserts
             </h1>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {data.map((product) => (
                 <ProductCard key={product.name} product={product} />
               ))}
-            </div>
+            </motion.div>
           </main>
 
           {/* aside section */}

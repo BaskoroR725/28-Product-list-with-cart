@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 export interface Product {
   image: {
     thumbnail: string;
@@ -14,9 +16,26 @@ interface ProductCardProps {
   product: Product;
 }
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+};
+
 function ProductCard({ product }: ProductCardProps) {
   return (
-    <article className="flex flex-col gap-4">
+    <motion.article
+      variants={itemVariants}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col gap-4"
+    >
       {/* image */}
       <div className="relative">
         <picture>
@@ -47,7 +66,7 @@ function ProductCard({ product }: ProductCardProps) {
         </h2>
         <p className="font-bold text-red">${product.price.toFixed(2)}</p>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
