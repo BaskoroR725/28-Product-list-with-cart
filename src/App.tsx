@@ -1,8 +1,12 @@
-import { motion } from "framer-motion";
 import "./App.css";
+
 import data from "../data.json";
-import ProductCard from "./components/ProductCard";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCartStore } from "./store/useCartStore";
+
+import ProductCard from "./components/ProductCard";
+import OrderModal from "./components/OrderModal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -16,7 +20,13 @@ const containerVariants = {
 };
 
 function App() {
-  const { items, removeItem } = useCartStore();
+  const { items, removeItem, resetCart } = useCartStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleReset = () => {
+    resetCart();
+    setIsModalOpen(false);
+  };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce(
@@ -127,7 +137,10 @@ function App() {
                   </div>
 
                   {/* Confirm Order Button */}
-                  <button className="w-full rounded-full bg-red py-4 font-semibold text-white transition-colors hover:bg-rose-900">
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="w-full rounded-full bg-red py-4 font-semibold text-white transition-colors hover:bg-rose-900"
+                  >
                     Confirm Order
                   </button>
                 </div>
@@ -135,6 +148,10 @@ function App() {
             </div>
           </aside>
         </div>
+
+        <AnimatePresence>
+          {isModalOpen && <OrderModal onReset={handleReset} />}
+        </AnimatePresence>
 
         {/* Footer / Attribution */}
         <footer className="mt-20 text-center text-xs">

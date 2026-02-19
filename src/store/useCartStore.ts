@@ -10,6 +10,7 @@ interface CartState {
   addItem: (product: Product) => void;
   removeItem: (productName: string) => void;
   updateQuantity: (productName: string, delta: number) => void;
+  resetCart: () => void;
 }
 
 export const useCartStore = create<CartState>((set) => ({
@@ -35,4 +36,6 @@ export const useCartStore = create<CartState>((set) => ({
         )
         .filter((item) => item.quantity > 0), // Hapus item jika qty jadi 0 (false)
     })),
+
+  resetCart: () => set({ items: [] }),
 }));
