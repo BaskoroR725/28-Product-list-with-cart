@@ -1,16 +1,25 @@
 import { motion } from "framer-motion";
-import { useCartStore } from "../store/useCartStore";
+import { useEffect } from "react";
+import type { CartItem } from "../store/useCartStore"; 
 
 interface OrderModalProps {
   onReset: () => void;
+  items: CartItem[];
 }
 
-function OrderModal({ onReset }: OrderModalProps) {
-  const { items } = useCartStore();
+function OrderModal({ onReset, items }: OrderModalProps) {
   const totalPrice = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
+
+  useEffect(() =>{
+    document.body.style.overflow="hidden";
+    return () =>{
+      document.body.style.overflow="unset"
+    };
+  },[]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 md:items-center">
       <motion.div

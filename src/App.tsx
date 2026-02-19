@@ -150,7 +150,7 @@ function App() {
         </div>
 
         <AnimatePresence>
-          {isModalOpen && <OrderModal onReset={handleReset} />}
+          {isModalOpen && <OrderModal items={items} onReset={handleReset} />}
         </AnimatePresence>
 
         {/* Footer / Attribution */}

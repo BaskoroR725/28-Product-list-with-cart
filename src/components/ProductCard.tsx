@@ -56,8 +56,9 @@ function ProductCard({ product }: ProductCardProps) {
         </picture>
         {isInCart ? (
           <div className="absolute -bottom-5 left-1/2 flex w-[160px] -translate-x-1/2 items-center justify-between rounded-full bg-red px-3 py-3 font-semibold text-white">
-            <button
+            <motion.button
               onClick={() => updateQuantity(product.name, -1)}
+              whileTap={{ scale: 0.8 }}
               className="group flex h-5 w-5 items-center justify-center rounded-full border border-white transition-colors hover:bg-white"
             >
               <svg
@@ -70,10 +71,11 @@ function ProductCard({ product }: ProductCardProps) {
               >
                 <path d="M0 .375h10v1.25H0V.375Z" />
               </svg>
-            </button>
+            </motion.button>
             <span className="text-sm">{cartItem.quantity}</span>
-            <button
+            <motion.button
               onClick={() => updateQuantity(product.name, 1)}
+              whileTap={{ scale: 0.8 }}
               className="group flex h-5 w-5 items-center justify-center rounded-full border border-white transition-colors hover:bg-white"
             >
               <svg
@@ -86,11 +88,13 @@ function ProductCard({ product }: ProductCardProps) {
               >
                 <path d="M10 4.375H5.625V0h-1.25v4.375H0v1.25h4.375V10h1.25V5.625H10v-1.25Z" />
               </svg>
-            </button>
+            </motion.button>
           </div>
         ) : (
           <button
             onClick={() => addItem(product)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className="absolute -bottom-5 left-1/2 flex w-[160px] -translate-x-1/2 items-center justify-center gap-2 rounded-full border border-rose-400 bg-white py-3 font-semibold transition-all duration-300 hover:border-red hover:text-red"
           >
             <img
