@@ -63,7 +63,7 @@ function App() {
                 Your Cart ({totalItems})
               </h2>
 
-              {items.length === 0 ? (
+              {items.length === 0 && (
                 <div className="flex flex-col items-center py-10 text-center">
                   <img
                     src="./assets/images/illustration-empty-cart.svg"
@@ -74,13 +74,29 @@ function App() {
                     Your added items will appear here
                   </p>
                 </div>
-              ) : (
-                <div className="flex flex-col gap-6">
-                  {/* Cart Items List */}
-                  <div className="flex flex-col">
+              )}
+
+              <div
+                className={
+                  items.length === 0 ? "hidden" : "flex flex-col gap-6"
+                }
+              >
+                {/* Cart Items List */}
+                <div className="flex flex-col">
+                  <AnimatePresence mode="popLayout">
                     {items.map((item) => (
-                      <div
+                      <motion.div
+                        layout
+                        initial={{ opacity: 0, height: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, height: "auto", scale: 1 }}
+                        exit={{ opacity: 0, height: 0, scale: 0.95 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 35,
+                        }}
                         key={item.name}
+                        style={{ overflow: "hidden" }}
                         className="flex items-center justify-between border-b border-rose-100 py-4 last:border-0"
                       >
                         <div className="flex flex-col gap-2">
@@ -114,37 +130,39 @@ function App() {
                             <path d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z" />
                           </svg>
                         </button>
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
-
-                  {/* Order Total */}
-                  <div className="flex items-center justify-between py-2">
-                    <span className="text-sm text-rose-900">Order Total</span>
-                    <span className="text-2xl font-bold text-rose-900">
-                      ${totalPrice.toFixed(2)}
-                    </span>
-                  </div>
-
-                  {/* Carbon Neutral Note */}
-                  <div className="flex items-center justify-center gap-2 rounded-lg bg-rose-50 py-4">
-                    <img src="./assets/images/icon-carbon-neutral.svg" alt="" />
-                    <p className="text-sm text-rose-900">
-                      This is a{" "}
-                      <span className="font-semibold">carbon-neutral</span>{" "}
-                      delivery
-                    </p>
-                  </div>
-
-                  {/* Confirm Order Button */}
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="w-full rounded-full bg-red py-4 font-semibold text-white transition-colors hover:bg-rose-900"
-                  >
-                    Confirm Order
-                  </button>
+                  </AnimatePresence>
                 </div>
-              )}
+
+                {/* Order Total */}
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-sm text-rose-900">Order Total</span>
+                  <span className="text-2xl font-bold text-rose-900">
+                    ${totalPrice.toFixed(2)}
+                  </span>
+                </div>
+
+                {/* Carbon Neutral Note */}
+                <div className="flex items-center justify-center gap-2 rounded-lg bg-rose-50 py-4">
+                  <img src="./assets/images/icon-carbon-neutral.svg" alt="" />
+                  <p className="text-sm text-rose-900">
+                    This is a{" "}
+                    <span className="font-semibold">carbon-neutral</span>{" "}
+                    delivery
+                  </p>
+                </div>
+
+                {/* Confirm Order Button */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setIsModalOpen(true)}
+                  className="w-full rounded-full bg-red py-4 font-semibold text-white transition-colors hover:bg-rose-900"
+                >
+                  Confirm Order
+                </motion.button>
+              </div>
             </div>
           </aside>
         </div>

@@ -91,7 +91,7 @@ function ProductCard({ product }: ProductCardProps) {
             </motion.button>
           </div>
         ) : (
-          <button
+          <motion.button
             onClick={() => addItem(product)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -104,7 +104,7 @@ function ProductCard({ product }: ProductCardProps) {
               className="h-5 w-5"
             />
             <span className="text-sm">Add to Cart</span>
-          </button>
+          </motion.button>
         )}
       </div>
 
